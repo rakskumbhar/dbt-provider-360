@@ -14,7 +14,7 @@ with source_data as (
         )
     {% endif %}
 )
-
+--adding comment to test commit
 select
     cast(provider_id as {{ dbt.type_string() }}) as provider_id,
     cast(npi as {{ dbt.type_string() }}) as npi,
