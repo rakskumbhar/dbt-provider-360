@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: audit_model_row_counts
+    description: Row-count audit by model and dbt invocation.
+    columns:
+      - name: audit_key
+        tests:
+          - unique
+          - not_null
+      - name: invocation_id
+        tests:
+          - not_null
+
+  - name: audit_reject_summary
+    description: Aggregated reject reason summary for operational monitoring.
+    columns:
+      - name: audit_key
+        tests:
+          - unique
+          - not_null
+      - name: reject_reason_text
+        tests:
+          - not_null
+

@@ -1,0 +1,5 @@
+provider_id,npi,tin,provider_first_name,provider_last_name,organization_name,provider_type,taxonomy_code,credential,gender,address_line_1,address_line_2,city,state,zip_code,phone,email,network_status,source_system,source_file_name,source_record_number,ingested_at
+P001,1234567893,123456789,AMY,RAO,,INDIVIDUAL,207Q00000X,MD,F,200 UPDATED MAIN ST,STE 10,BOSTON,MA,02111,6175550202,amy.rao.updated@example.com,ACTIVE,provider_mdm,provider_20260520.csv,1,2026-05-20 10:00:00
+P002,1999999998,987654321,,,"NORTH CLINIC LLC",ORGANIZATION,261QP2300X,,U,22 HEALTH WAY,SUITE 8,NEW YORK,NY,10001,2125550299,ops-new@northclinic.example,TERMINATED,provider_mdm,provider_20260520.csv,2,2026-05-20 10:00:00
+P006,2222222222,555667777,MARIA,GOMEZ,,INDIVIDUAL,207Q00000X,MD,F,88 WELLNESS AVE,,MIAMI,FL,33101,3055550144,maria.gomez@example.com,ACTIVE,provider_mdm,provider_20260520.csv,3,2026-05-20 10:00:00
+P007,3333333333,ABC123456,ROBERT,KIM,,INDIVIDUAL,207R00000X,DO,M,10 BAD TIN RD,,SEATTLE,WA,98101,2065550188,robert.kim@example.com,ACTIVE,provider_mdm,provider_20260520.csv,4,2026-05-20 10:00:00

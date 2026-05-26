@@ -1,0 +1,25 @@
+provider_360:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('DBT_POSTGRES_HOST', 'localhost') }}"
+      user: "{{ env_var('DBT_POSTGRES_USER', 'provider_360_user') }}"
+      password: "{{ env_var('DBT_POSTGRES_PASSWORD', 'provider_360_password') }}"
+      port: "{{ env_var('DBT_POSTGRES_PORT', 5432) | int }}"
+      dbname: "{{ env_var('DBT_POSTGRES_DATABASE', 'provider_360_dev') }}"
+      schema: analytics
+      threads: 8
+      connect_timeout: 10
+      keepalives_idle: 0
+    prod:
+      type: postgres
+      host: "{{ env_var('DBT_POSTGRES_HOST') }}"
+      user: "{{ env_var('DBT_POSTGRES_USER') }}"
+      password: "{{ env_var('DBT_POSTGRES_PASSWORD') }}"
+      port: "{{ env_var('DBT_POSTGRES_PORT', 5432) | int }}"
+      dbname: "{{ env_var('DBT_POSTGRES_DATABASE', 'provider_360_prod') }}"
+      schema: analytics
+      threads: 16
+      connect_timeout: 10
+      keepalives_idle: 0

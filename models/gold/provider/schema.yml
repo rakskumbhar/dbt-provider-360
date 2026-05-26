@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: dim_provider_360
+    description: Consumer-ready current Provider 360 dimension.
+    columns:
+      - name: provider_sk
+        tests:
+          - unique
+          - not_null
+      - name: npi
+        tests:
+          - unique
+          - not_null
+          - npi_10_digit
+      - name: tin
+        tests:
+          - not_null
+          - tin_9_digit
+      - name: provider_display_name
+        tests:
+          - not_null
+
+  - name: fct_provider_quality
+    description: File-level provider ingestion quality summary.
+    columns:
+      - name: provider_quality_key
+        description: Deterministic key for source-system and source-file quality metrics.
+        tests:
+          - unique
+          - not_null
+      - name: total_records
+        tests:
+          - not_null
+      - name: reject_rate
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 1
+      - name: max_silver_loaded_at
+        description: Latest silver validation timestamp represented in this file-level quality row; used to limit future incremental merges to impacted files.

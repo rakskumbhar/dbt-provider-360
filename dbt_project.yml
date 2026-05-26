@@ -1,0 +1,86 @@
+name: provider_360
+version: 1.0.0
+config-version: 2
+
+profile: provider_360
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+  - "logs"
+
+vars:
+  audit_schema: audit
+  dq_reject_schema: silver
+  provider_source_system: provider_mdm
+  enable_email_alerts: false
+  postgres_notification_channel: provider_360_dbt_alerts
+  email_alert_recipients: []
+
+on-run-start:
+  - "{{ log_run_start() }}"
+
+on-run-end:
+  - "{{ log_run_end(results) }}"
+  - "{{ notify_run_status(results) }}"
+
+seeds:
+  provider_360:
+    +schema: raw_seed
+    +quote_columns: false
+    providers:
+      raw_provider:
+        +column_types:
+          provider_id: varchar(50)
+          npi: varchar(20)
+          tin: varchar(20)
+          provider_first_name: varchar(100)
+          provider_last_name: varchar(100)
+          organization_name: varchar(255)
+          provider_type: varchar(50)
+          taxonomy_code: varchar(20)
+          credential: varchar(20)
+          gender: varchar(20)
+          address_line_1: varchar(255)
+          address_line_2: varchar(255)
+          city: varchar(100)
+          state: varchar(10)
+          zip_code: varchar(20)
+          phone: varchar(30)
+          email: varchar(255)
+          network_status: varchar(50)
+          source_system: varchar(100)
+          source_file_name: varchar(255)
+          source_record_number: varchar(50)
+          ingested_at: timestamp
+
+models:
+  provider_360:
+    bronze:
+      +materialized: incremental
+      +schema: bronze
+      +tags: ["bronze", "raw", "provider360"]
+    silver:
+      +materialized: incremental
+      +schema: silver
+      +tags: ["silver", "cleansed", "provider360"]
+    gold:
+      +materialized: incremental
+      +schema: gold
+      +tags: ["gold", "curated", "provider360"]
+    audit:
+      +materialized: incremental
+      +schema: audit
+      +tags: ["audit", "operations"]
+
+snapshots:
+  provider_360:
+    +target_schema: snapshots

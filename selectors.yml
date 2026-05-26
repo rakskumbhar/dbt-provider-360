@@ -1,0 +1,16 @@
+selectors:
+  - name: provider360_bronze_to_gold
+    description: Full Provider 360 medallion pipeline.
+    definition:
+      union:
+        - method: tag
+          value: provider360
+
+  - name: provider360_quality_gate
+    description: Tests that should block promotion.
+    definition:
+      union:
+        - method: tag
+          value: provider360
+          children: true
+

@@ -1,0 +1,15 @@
+version: 2
+
+exposures:
+  - name: provider_360_dashboard
+    type: dashboard
+    maturity: high
+    url: https://bi.example.com/provider-360
+    description: Enterprise Provider 360 dashboard for network, credentialing, and provider operations teams.
+    depends_on:
+      - ref('dim_provider_360')
+      - ref('fct_provider_quality')
+    owner:
+      name: Provider Data Platform
+      email: provider-data-platform@example.com
+

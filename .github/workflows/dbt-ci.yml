@@ -1,0 +1,54 @@
+name: dbt-ci
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  dbt-ci:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: provider_360_user
+          POSTGRES_PASSWORD: provider_360_password
+          POSTGRES_DB: provider_360_dev
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U provider_360_user -d provider_360_dev"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DBT_POSTGRES_HOST: localhost
+      DBT_POSTGRES_PORT: 5432
+      DBT_POSTGRES_USER: provider_360_user
+      DBT_POSTGRES_PASSWORD: provider_360_password
+      DBT_POSTGRES_DATABASE: provider_360_dev
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dbt
+        run: pip install dbt-postgres
+      - name: Install packages
+        run: dbt deps
+      - name: Create dbt profile
+        run: cp profiles.yml.example profiles.yml
+      - name: Create schemas
+        run: |
+          PGPASSWORD=$DBT_POSTGRES_PASSWORD psql \
+            -h $DBT_POSTGRES_HOST \
+            -U $DBT_POSTGRES_USER \
+            -d $DBT_POSTGRES_DATABASE \
+            -c "create schema if not exists analytics_raw_seed; create schema if not exists analytics_bronze; create schema if not exists analytics_silver; create schema if not exists analytics_gold; create schema if not exists analytics_audit; create schema if not exists snapshots;"
+      - name: Compile
+        run: dbt compile --profiles-dir .
+      - name: Seed, run, and test
+        run: |
+          dbt seed --profiles-dir .
+          dbt run --profiles-dir . --select tag:provider360
+          dbt test --profiles-dir . --select tag:provider360

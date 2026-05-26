@@ -1,0 +1,26 @@
+version: 2
+
+sources:
+  - name: provider_landing
+    database: "{{ env_var('DBT_RAW_DATABASE', target.database) }}"
+    schema: "{{ env_var('DBT_RAW_SCHEMA', 'PROVIDER_LANDING') }}"
+    description: Example raw provider landing source. Replace seed usage with this source in production.
+    config:
+      loaded_at_field: ingested_at
+      freshness:
+        warn_after:
+          count: 24
+          period: hour
+        error_after:
+          count: 48
+          period: hour
+    tables:
+      - name: raw_provider
+        description: Raw provider file or ingestion table.
+        columns:
+          - name: provider_id
+          - name: npi
+          - name: tin
+          - name: source_file_name
+          - name: source_record_number
+          - name: ingested_at

@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: slv_provider_validated
+    description: Provider records standardized and annotated with reject reasons.
+    columns:
+      - name: provider_sk
+        tests:
+          - not_null
+      - name: bronze_record_key
+        tests:
+          - unique
+          - not_null
+
+  - name: slv_provider_clean
+    description: Current valid provider records deduplicated by NPI.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns: ["npi", "tin"]
+    columns:
+      - name: provider_sk
+        tests:
+          - unique
+          - not_null
+      - name: npi
+        tests:
+          - not_null
+          - npi_10_digit
+      - name: tin
+        tests:
+          - not_null
+          - tin_9_digit
+      - name: provider_type
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["INDIVIDUAL", "ORGANIZATION"]
+      - name: network_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ["ACTIVE", "TERMINATED", "PENDING"]
+      - name: state
+        tests:
+          - dbt_expectations.expect_column_values_to_match_regex:
+              arguments:
+                regex: "^[A-Z]{2}$"
+      - name: zip5
+        tests:
+          - dbt_expectations.expect_column_values_to_match_regex:
+              arguments:
+                regex: "^[0-9]{5}$"
+
+  - name: slv_provider_rejects
+    description: Rejected provider records with structured data quality reasons.
+    columns:
+      - name: bronze_record_key
+        tests:
+          - unique
+          - not_null
+      - name: reject_reason_text
+        tests:
+          - not_null

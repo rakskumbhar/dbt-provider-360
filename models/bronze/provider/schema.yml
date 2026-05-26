@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: brz_provider
+    description: Raw provider landing model with minimal typing and source metadata.
+    columns:
+      - name: bronze_record_key
+        tests:
+          - unique
+          - not_null
+      - name: source_system
+        tests:
+          - not_null
+      - name: source_file_name
+        tests:
+          - not_null
+      - name: source_record_number
+        tests:
+          - not_null
+

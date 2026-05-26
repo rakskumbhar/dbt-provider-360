@@ -1,0 +1,6 @@
+provider_id,npi,tin,provider_first_name,provider_last_name,organization_name,provider_type,taxonomy_code,credential,gender,address_line_1,address_line_2,city,state,zip_code,phone,email,network_status,source_system,source_file_name,source_record_number,ingested_at
+P001,1234567893,123456789,AMY,RAO,,INDIVIDUAL,207Q00000X,MD,F,100 MAIN ST,,BOSTON,MA,02110,6175550101,amy.rao@example.com,ACTIVE,provider_mdm,provider_20260501.csv,1,2026-05-01 10:00:00
+P002,1999999998,987654321,,,"NORTH CLINIC LLC",ORGANIZATION,261QP2300X,,U,22 HEALTH WAY,SUITE 4,NEW YORK,NY,10001,2125550199,ops@northclinic.example,ACTIVE,provider_mdm,provider_20260501.csv,2,2026-05-01 10:00:00
+P003,,111223333,JOHN,LEE,,INDIVIDUAL,207R00000X,DO,M,77 CARE RD,,AUSTIN,TX,73301,5125550123,john.lee@example.com,ACTIVE,provider_mdm,provider_20260501.csv,3,2026-05-01 10:00:00
+P004,1111111111,12AB56789,SARA,PATEL,,INDIVIDUAL,207P00000X,NP,F,9 BROADWAY,,CHICAGO,IL,60601,3125550100,sara.patel.example.com,TERMINATED,provider_mdm,provider_20260501.csv,4,2026-05-01 10:00:00
+P005,1234567893,123456789,AMY,RAO,,INDIVIDUAL,207Q00000X,MD,F,100 MAIN ST,,BOSTON,MA,02110,6175550101,amy.rao@example.com,ACTIVE,provider_mdm,provider_20260502.csv,1,2026-05-02 10:00:00
